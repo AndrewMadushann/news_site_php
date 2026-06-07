@@ -1,0 +1,420 @@
+/* ═══════════════════════════════════════════════════════
+   Daily News — Main Stylesheet
+   Editorial type system (set in header.php):
+     • Fraunces       — display / headlines
+     • Lora           — article body text
+     • Inter Variable — UI, nav, metadata
+   Brand: #DC2626 (red-600)
+   ═══════════════════════════════════════════════════════ */
+
+/* ── 1. Base / Smooth Scroll ──────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Editorial type variables — used throughout this file. */
+:root {
+  --font-display: 'Fraunces', 'Playfair Display', Georgia, serif;
+  --font-body:    'Lora', Georgia, serif;
+  --font-ui:      'InterVariable', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --color-ink:    #111827;
+  --color-body:   #1F2937;
+  --color-meta:   #6B7280;
+  --color-rule:   #E5E7EB;
+}
+
+/* ── Editorial typography (applies across every public page) ── */
+
+/* Newspaper-style display headings get Fraunces with tight tracking. */
+h1.font-serif,
+h2.font-serif,
+h3.font-serif,
+.font-display,
+.font-serif {
+  font-family: var(--font-display) !important;
+  font-optical-sizing: auto;
+  letter-spacing: -0.022em;
+  color: var(--color-ink);
+}
+
+h1.font-serif { font-weight: 800; line-height: 1.05; }
+h2.font-serif { font-weight: 700; line-height: 1.15; }
+h3.font-serif { font-weight: 700; line-height: 1.25; }
+
+/* Section headings on listing pages — sans-serif headings stay clean. */
+section h2:not(.font-serif),
+section h3:not(.font-serif) {
+  letter-spacing: -0.015em;
+}
+
+/* Small caps style for kicker / category labels. */
+.kicker,
+.uppercase {
+  font-feature-settings: 'cv11', 'ss01';
+}
+
+/* ── 2. Custom Focus Styles (Accessibility) ───────────── */
+:focus-visible {
+  outline: 3px solid #DC2626;
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #DC2626;
+  outline-offset: 3px;
+}
+
+/* ── 3. Scrollbar Hide Utility ───────────────────────── */
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── 4. Breaking News Ticker / Marquee ───────────────── */
+.ticker-wrap {
+  overflow: hidden;
+  width: 100%;
+}
+
+.ticker-content {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  animation: ticker-scroll 40s linear infinite;
+}
+
+.ticker-content:hover {
+  animation-play-state: paused;
+}
+
+@keyframes ticker-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ── 5. Reading Progress Bar ─────────────────────────── */
+#reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, #DC2626, #EF4444);
+  z-index: 9999;
+  transition: width 0.1s linear;
+  border-radius: 0 2px 2px 0;
+}
+
+/* ── 6. News Card Hover Effects ──────────────────────── */
+.news-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  will-change: transform;
+}
+
+.news-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.10);
+}
+
+.news-card img {
+  transition: transform 0.4s ease;
+}
+
+.news-card:hover img {
+  transform: scale(1.04);
+}
+
+/* ── 7. Category Badge Styles ────────────────────────── */
+.category-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.category-badge--red     { background: #FEE2E2; color: #991B1B; }
+.category-badge--blue    { background: #DBEAFE; color: #1E40AF; }
+.category-badge--green   { background: #D1FAE5; color: #065F46; }
+.category-badge--yellow  { background: #FEF3C7; color: #92400E; }
+.category-badge--purple  { background: #EDE9FE; color: #5B21B6; }
+.category-badge--gray    { background: #F3F4F6; color: #374151; }
+
+/* ── 8. Hero Section ─────────────────────────────────── */
+.hero-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 30%,
+    rgba(0, 0, 0, 0.75) 100%
+  );
+  pointer-events: none;
+}
+
+.hero-section .hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── 9. Article Body Prose Styles (newspaper editorial) ── */
+.article-body {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.75;
+  color: var(--color-body);
+  letter-spacing: 0;
+  font-feature-settings: 'kern', 'liga', 'onum';
+}
+
+.article-body h1,
+.article-body h2,
+.article-body h3,
+.article-body h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--color-ink);
+  margin-top: 2.25rem;
+  margin-bottom: 0.85rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-optical-sizing: auto;
+}
+
+.article-body h1 { font-size: 2.125rem; font-weight: 800; }
+.article-body h2 { font-size: 1.6rem; border-left: 4px solid #DC2626; padding-left: 0.75rem; }
+.article-body h3 { font-size: 1.3rem; }
+.article-body h4 { font-size: 1.1rem; color: #374151; }
+
+.article-body p {
+  margin-bottom: 1.4rem;
+}
+
+/* Editorial drop-cap on the first paragraph of an article body. */
+.article-body > p:first-of-type::first-letter {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 3.75rem;
+  float: left;
+  line-height: 0.9;
+  margin: 0.25rem 0.55rem 0 0;
+  color: #DC2626;
+}
+
+.article-body a {
+  color: #DC2626;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease;
+}
+.article-body a:hover {
+  color: #B91C1C;
+}
+
+.article-body ul,
+.article-body ol {
+  margin: 1.2rem 0 1.4rem 1.5rem;
+}
+
+.article-body ul {
+  list-style-type: disc;
+}
+
+.article-body ol {
+  list-style-type: decimal;
+}
+
+.article-body li {
+  margin-bottom: 0.5rem;
+  padding-left: 0.25rem;
+}
+
+.article-body blockquote {
+  border-left: 4px solid #DC2626;
+  background: #FFF5F5;
+  margin: 2rem 0;
+  padding: 1.25rem 1.5rem;
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  color: #374151;
+  font-size: 1.075rem;
+}
+
+.article-body blockquote cite {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  font-style: normal;
+  color: #6B7280;
+  font-weight: 600;
+}
+
+.article-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 1.75rem auto;
+  display: block;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.article-body figure {
+  margin: 1.75rem 0;
+}
+
+.article-body figcaption {
+  text-align: center;
+  font-size: 0.825rem;
+  color: #6B7280;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+.article-body hr {
+  border: none;
+  border-top: 2px solid #F3F4F6;
+  margin: 2.5rem 0;
+}
+
+.article-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+}
+
+.article-body th {
+  background: #111827;
+  color: #fff;
+  padding: 0.6rem 1rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+.article-body td {
+  padding: 0.55rem 1rem;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.article-body tr:nth-child(even) td {
+  background: #F9FAFB;
+}
+
+.article-body pre {
+  background: #1F2937;
+  color: #F9FAFB;
+  padding: 1.25rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  margin: 1.5rem 0;
+}
+
+.article-body code {
+  background: #FEE2E2;
+  color: #991B1B;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.875em;
+  font-family: 'Courier New', monospace;
+}
+
+.article-body pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+/* ── 10. Lazy Load Fade-In Animation ─────────────────── */
+img[loading="lazy"] {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+img.lazy-loaded {
+  opacity: 1;
+}
+
+/* For IntersectionObserver-based lazy loading */
+.lazy-img {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.lazy-img.loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── 11. Section Fade-In on Scroll ───────────────────── */
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.fade-in-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── 12. Scroll-to-Top Button ────────────────────────── */
+#scroll-to-top {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#scroll-to-top.visible {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: translateY(0);
+}
+
+/* ── 13. Flash / Alert Messages ──────────────────────── */
+.flash-message {
+  animation: slideInDown 0.35s ease forwards;
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── 14. Print Styles ────────────────────────────────── */
+@media print {
+  nav, footer, #scroll-to-top, #reading-progress, .ticker-wrap {
+    display: none !important;
+  }
+  .article-body {
+    font-size: 12pt;
+    line-height: 1.6;
+    color: #000;
+  }
+}
